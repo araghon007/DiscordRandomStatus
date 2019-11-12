@@ -353,14 +353,6 @@
                                 Margin="4,4,3,3"
                                 Fill="{DynamicResource ScrollBarBackgroundColor}"/>
                         </Grid>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="{TemplateBinding ComputedHorizontalScrollBarVisibility}" Value="Hidden">
-                                <Setter TargetName="Corner" Property="Margin" Value="0"/>
-                            </Trigger>
-                            <Trigger Property="{TemplateBinding ComputedVerticalScrollBarVisibility}" Value="Hidden">
-                                <Setter TargetName="Corner" Property="Margin" Value="0"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
