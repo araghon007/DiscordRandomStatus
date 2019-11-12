@@ -1,0 +1,69 @@
+﻿<UserControl x:Class="DiscordCustomStatus.StatusEntry"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DiscordCustomStatus"
+             xmlns:emoji="clr-namespace:Emoji.Wpf"
+             mc:Ignorable="d">
+    <StackPanel Orientation="Horizontal" Height="40">
+        <Grid Width="400">
+            <Border Background="#303338" BorderBrush="#212327" BorderThickness="1" CornerRadius="2.5" MouseEnter="LoginBorderAnim" MouseLeave="LoginBorderAnimLeave" GotKeyboardFocus="LoginBlurpleAnim" LostKeyboardFocus="LoginBlurpleAnimLeave" MouseDown="FocusKeyStuff" Cursor="IBeam">
+                <TextBox x:Name="Text" Margin="42,0,36,0" Padding="0,4,0,0" VerticalAlignment="Center" Text="" FontSize="16" Background="{x:Null}" Foreground="#DCDDDE" BorderThickness="0" CaretBrush="White" MaxLines="1" TextChanged="Ggggggg"/>
+            </Border>
+            <TextBlock x:Name="Placeholder" IsHitTestVisible="False" Text="Support has arrived!" FontSize="16" Foreground="#4DDCDDDE" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="45,0,0,0" Padding="0,0,0,4"/>
+            <ToggleButton x:Name="Button_Internal" Style="{DynamicResource EmojiButton}" BorderThickness="0" Cursor="Hand" HorizontalAlignment="Left" Width="40">
+                <Grid>
+                    <Popup IsOpen="{Binding IsChecked, ElementName=Button_Internal, Mode=TwoWay}" StaysOpen="False" AllowsTransparency="True">
+                        <Border Margin="12,4,12,20" Width="344" Height="228" BorderBrush="#212327" Background="#36393F" BorderThickness="1" CornerRadius="4">
+                            <Border.Effect>
+                                <DropShadowEffect Direction="270" ShadowDepth="8" Opacity="0.2" BlurRadius="16"/>
+                            </Border.Effect>
+                            <TextBox x:Name="EmojText" HorizontalAlignment="Center" VerticalAlignment="Center" TextChanged="Aaaa" MinWidth="100" ToolTip="Copy emoji from Discord using \ (for example \:emoji:) and paste it here"/>
+                        </Border>
+                    </Popup>
+                    <Viewbox x:Name="emoj" RenderTransformOrigin="0.5,0.5" Width="22" Height="22" Opacity="0.35" MouseEnter="Emoj_MouseEnter" MouseLeave="Emoj_MouseLeave">
+                        <Grid>
+                            <Path Fill="#FFCC4D">
+                                <Path.Data>
+                                    <PathGeometry Figures="M36 18c0 9.941-8.059 18-18 18c-9.94 0-18-8.059-18-18C0 8.06 8.06 0 18 0c9.941 0 18 8.06 18 18"/>
+                                </Path.Data>
+                            </Path>
+                            <Path Fill="#664500">
+                                <Path.Data>
+                                    <EllipseGeometry Center="11.5,12.5" RadiusX="2.5" RadiusY="5.5"/>
+                                </Path.Data>
+                            </Path>
+                            <Path Fill="#664500">
+                                <Path.Data>
+                                    <EllipseGeometry Center="24.5,12.5" RadiusX="2.5" RadiusY="5.5"/>
+                                </Path.Data>
+                            </Path>
+                            <Path Fill="#664500">
+                                <Path.Data>
+                                    <PathGeometry Figures="M18 22c-3.623 0-6.027-.422-9-1c-.679-.131-2 0-2 2c0 4 4.595 9 11 9c6.404 0 11-5 11-9c0-2-1.321-2.132-2-2c-2.973.578-5.377 1-9 1z"/>
+                                </Path.Data>
+                            </Path>
+                            <Path Fill="#FFF">
+                                <Path.Data>
+                                    <PathGeometry Figures="M9 23s3 1 9 1s9-1 9-1s-2 4-9 4s-9-4-9-4z"/>
+                                </Path.Data>
+                            </Path>
+                        </Grid>
+                    </Viewbox>
+                    <Image x:Name="imga" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="22" Height="22" RenderOptions.BitmapScalingMode="HighQuality"/>
+                    <emoji:TextBlock x:Name="emo"  Text="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" Padding="0,0,0,2"/>
+                </Grid>
+            </ToggleButton>
+            <Path x:Name="pth" Visibility="Hidden" Opacity="0.6" Fill="#B9BBBE" Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Center" Cursor="Hand" MouseUp="TextusDeletus" MouseLeave="Unhoover" MouseEnter="Hoover">
+                <Path.Data>
+                    <PathGeometry Figures="M7.02799 0.333252C3.346 0.333252 0.361328 3.31792 0.361328 6.99992C0.361328 10.6819 3.346 13.6666 7.02799 13.6666C10.71 13.6666 13.6947 10.6819 13.6947 6.99992C13.6947 3.31792 10.7093 0.333252 7.02799 0.333252ZM10.166 9.19525L9.22333 10.1379L7.02799 7.94325L4.83266 10.1379L3.89 9.19525L6.08466 6.99992L3.88933 4.80459L4.832 3.86259L7.02733 6.05792L9.22266 3.86259L10.1653 4.80459L7.97066 6.99992L10.166 9.19525Z"/>
+                </Path.Data>
+            </Path>
+        </Grid>
+        <local:IntInput x:Name="TimeSeconds" FontSize="16" Height="40" MinWidth="50" HorizontalAlignment="Left" VerticalAlignment="Top" ToolTip="Time before this status changes (in seconds)"/>
+        <Button x:Name="CloseButton" Style="{DynamicResource RederButton}" Height="40" Width="40" VerticalAlignment="Top" Background="#303338" Cursor="Hand">
+            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" Text="X" Foreground="#DCDDDE" FontSize="22" Padding="0,0,0,4"/>
+        </Button>
+    </StackPanel>
+</UserControl>

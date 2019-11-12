@@ -1,0 +1,253 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{54F532EB-1CE5-4735-9690-5C9038B5841B}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>DiscordRandomStatus</RootNamespace>
+    <AssemblyName>DiscordRandomStatus</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="UserSettings.cs" />
+    <Page Include="LoginPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ClientProperties.cs" />
+    <Compile Include="DataStore.cs" />
+    <Compile Include="DiscordClient.cs" />
+    <Compile Include="DiscordEmoji.cs" />
+    <Compile Include="DiscordEventArgs.cs" />
+    <Compile Include="DiscordGuild.cs" />
+    <Compile Include="LoginPage.xaml.cs">
+      <DependentUpon>LoginPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LoginPayload.cs" />
+    <Compile Include="MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Misc\CustomControls\AnimatedImage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Misc\CustomControls\IntInput.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Misc\CustomControls\StatusEntry.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Misc\Emoji\Picker.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Misc\Emoji\RichTextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Misc\Emoji\TextBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Misc\CustomControls\AnimatedImage.xaml.cs">
+      <DependentUpon>AnimatedImage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Misc\CustomControls\IntInput.xaml.cs">
+      <DependentUpon>IntInput.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Misc\CustomControls\StatusEntry.xaml.cs">
+      <DependentUpon>StatusEntry.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Misc\Emoji\Data.cs" />
+    <Compile Include="Misc\Emoji\EmojiInline.cs" />
+    <Compile Include="Misc\Emoji\EmojiRenderer.cs" />
+    <Compile Include="Misc\Emoji\OpenTypeFont.cs" />
+    <Compile Include="Misc\Emoji\Picker.xaml.cs">
+      <DependentUpon>Picker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Misc\Emoji\RichTextBox.xaml.cs">
+      <DependentUpon>RichTextBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Misc\Emoji\TextBlock.xaml.cs">
+      <DependentUpon>TextBlock.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Misc\WpfMouseWheelLib\ComponentModel\ObservableObject.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\ComponentModel\StringableConverter.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Diagnostics\TimeBase.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\DictionaryExtensions.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\DoubleEx.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\MathEx.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Maths\AffineFunction.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Maths\Function.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Maths\Int32Function.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Maths\Int32HysteronGenerator.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Maths\LinearFilter.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Maths\LowPassFilter.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Maths\RefFunc.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\Controls\ScrollViewerExtensions.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\Controls\TextBoxExtensions.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\Data\BooleanToWaitCursorConverter.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\Data\DummyConverter.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\Data\EnumToBooleanConverter.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\DependencyObjectExtensions.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\DependencyPropertyExtensions.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\FrameworkLevelElement.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\InputElementExtensions.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\InputLevelElement.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\MouseDeviceExtensions.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\MouseWheel\Adapting\MouseWheelAdaptationBehavior.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\MouseWheel\Adapting\MouseWheelAdaptationClient.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\MouseWheel\MouseWheel.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\MouseWheel\MouseWheelBehavior.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\MouseWheel\MouseWheelClient.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\MouseWheel\MouseWheelController.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\MouseWheel\MouseWheelDebouncing.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\MouseWheel\MouseWheelFilter.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\MouseWheel\MouseWheelFrameworkLevelController.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\MouseWheel\MouseWheelInputEventArgs.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\MouseWheel\MouseWheelInputListener.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\MouseWheel\MouseWheelShaft.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\MouseWheel\MouseWheelSmoothing.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\MouseWheel\MouseWheelTransferCase.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\MouseWheel\Scrolling\MouseWheelFlowDocumentPageViewerScrollClient.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\MouseWheel\Scrolling\MouseWheelScrollBehavior.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\MouseWheel\Scrolling\MouseWheelScrollClient.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\MouseWheel\Scrolling\MouseWheelScrollIncrement.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\MouseWheel\Scrolling\MouseWheelScrollMode.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\MouseWheel\Zooming\MouseWheelZoomBehavior.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\MouseWheel\Zooming\MouseWheelZoomClient.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\MouseWheel\Zooming\MouseWheelZoomMode.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\RelayCommand.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\MotionFlow\MotionElement.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\MotionFlow\MotionFilter.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\MotionFlow\MotionInfo.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\MotionFlow\MotionInput.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\MotionFlow\MotionOutput.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\MotionFlow\MotionSink.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\MotionFlow\MotionSource.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\MotionFlow\MotionTarget.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\MotionFlow\MotionTerminal.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\MotionFlow\MotionTransfer.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\MotionFlow\MotionTransferCase.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\MotionFlow\MotionTransferEventArgs.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\MotionFlow\MotionTransferGroup.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\MotionFlow\MotionTransform.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\SystemParametersEx.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\UserPreferenceChangedEventManager.cs" />
+    <Compile Include="Misc\WpfMouseWheelLib\Windows\ZoomElement.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Misc\Emoji\emoji-test.txt" />
+    <Resource Include="Misc\Emoji\WinFonts\webdings.txt" />
+    <Resource Include="Misc\Emoji\WinFonts\wingdings.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Typography\Build\N20\Typography.GlyphLayout\Typography.GlyphLayout.csproj">
+      <Project>{c6807d05-09be-4313-9f8b-bd2d51c55819}</Project>
+      <Name>Typography.GlyphLayout</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Typography\Build\N20\Typography.OpenFont\Typography.OpenFont.csproj">
+      <Project>{f7d71e61-9342-4dd7-9afd-69045f2ec98b}</Project>
+      <Name>Typography.OpenFont</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

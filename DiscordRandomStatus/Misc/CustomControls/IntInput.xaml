@@ -1,0 +1,28 @@
+﻿<Border x:Class="DiscordCustomStatus.IntInput"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DiscordCustomStatus"
+             mc:Ignorable="d" 
+             d:DesignHeight="40" d:DesignWidth="120"
+             Background="#303338" BorderBrush="#212327" BorderThickness="1" 
+             CornerRadius="2.5" MouseEnter="LoginBorderAnim" MouseLeave="LoginBorderAnimLeave" 
+             GotKeyboardFocus="LoginBlurpleAnim" LostKeyboardFocus="LoginBlurpleAnimLeave" MouseDown="FocusKeyStuff" Cursor="IBeam" MouseWheel="Whell">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="18"/>
+            <RowDefinition/>
+            <RowDefinition Height="18"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+        <TextBox Grid.RowSpan="3" Foreground="#DCDDDE" x:Name="TextBox" Background="Transparent" BorderThickness="0" Text="0" Padding="4,4,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" CaretBrush="White" PreviewKeyDown="KeyFilter"/>
+        <Button Grid.Column="1" Height="18" Width="20" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top"  Content="▲" Background="#212327" Foreground="#DCDDDE" BorderThickness="0" FontSize="12" Cursor="Hand" Click="UpButt"/>
+        <Rectangle Grid.Row="1" Width="20" Grid.Column="1" Fill="#212327" HorizontalAlignment="Right" VerticalAlignment="Stretch" Cursor="Arrow"/>
+        <Button Grid.Column="1" Height="18" Width="20" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Bottom"  Content="▼" Background="#212327" Foreground="#DCDDDE" BorderThickness="0" FontSize="12" Cursor="Hand" Click="DownButt"/>
+
+    </Grid>
+</Border>
