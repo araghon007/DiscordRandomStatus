@@ -18,5 +18,3 @@ The token is stored using System.Security.Cryptography, which should make the re
 Clean up the code like, a lot  
 
 Add functionality to display rare statuses  
-
-I'm still pretty new to the whole git thing, so I need to figure out how to properly configure submodules
