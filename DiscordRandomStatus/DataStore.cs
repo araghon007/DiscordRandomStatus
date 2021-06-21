@@ -22,7 +22,15 @@ namespace DiscordRandomStatus
             {
                 return null;
             }
-            return Serializer.Parse<SaveData>(File.ReadAllText($"{saveLocation}saved-statuses.json")).Arrays;
+            try
+            {
+                return Serializer.Parse<SaveData>(File.ReadAllText($"{saveLocation}saved-statuses.json")).Arrays;
+            }
+            catch
+            {
+                File.Move($"{saveLocation}saved-statuses.json", $"{saveLocation}saved-statuses_corrupt.json");
+                return null;
+            }
         }
 
         public static void Save(StatusArray[] arrays)
@@ -36,10 +44,19 @@ namespace DiscordRandomStatus
             {
                 return null;
             }
-            var bytes = File.ReadAllBytes($"{saveLocation}secret");
-            var entropy = bytes.Take(20).ToArray();
-            var ciphertext = bytes.Skip(20).ToArray();
-            return Encoding.UTF8.GetString(ProtectedData.Unprotect(ciphertext, entropy, DataProtectionScope.CurrentUser));
+
+            try
+            {
+                var bytes = File.ReadAllBytes($"{saveLocation}secret");
+                var entropy = bytes.Take(20).ToArray();
+                var ciphertext = bytes.Skip(20).ToArray();
+                return Encoding.UTF8.GetString(ProtectedData.Unprotect(ciphertext, entropy, DataProtectionScope.CurrentUser));
+            }
+            catch
+            {
+                File.Delete($"{saveLocation}secret");
+                return null;
+            }
         }
 
         public static void SaveToken(string token)
