@@ -1,13 +1,11 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
+using CompactJson;
 
-namespace DiscordCustomStatus
+namespace DiscordRandomStatus
 {
     static class DataStore
     {
@@ -24,12 +22,12 @@ namespace DiscordCustomStatus
             {
                 return null;
             }
-            return JsonConvert.DeserializeObject<SaveData>(File.ReadAllText($"{saveLocation}saved-statuses.json")).Arrays;
+            return Serializer.Parse<SaveData>(File.ReadAllText($"{saveLocation}saved-statuses.json")).Arrays;
         }
 
         public static void Save(StatusArray[] arrays)
         {
-            File.WriteAllText($"{saveLocation}saved-statuses.json", JsonConvert.SerializeObject(new SaveData(arrays), Formatting.Indented));
+            File.WriteAllText($"{saveLocation}saved-statuses.json", Serializer.ToString(new SaveData(arrays), true));
         }
 
         public static string LoadToken()
@@ -66,8 +64,10 @@ namespace DiscordCustomStatus
 
     class SaveData
     {
-        [JsonProperty(PropertyName = "arrays", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("arrays")]
         public StatusArray[] Arrays;
+
+        public SaveData(){}
 
         public SaveData(StatusArray[] arrays)
         {
@@ -77,11 +77,13 @@ namespace DiscordCustomStatus
 
     class StatusArray
     {
-        [JsonProperty(PropertyName = "chance_ratio", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("chance_ratio")]
         public int ChanceRatio { get; set; }
 
-        [JsonProperty(PropertyName = "statuses", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("statuses")]
         public TransitCustomStatus[] Statuses;
+
+        public StatusArray(){}
 
         public StatusArray(TransitCustomStatus[] statuses)
         {
@@ -91,19 +93,19 @@ namespace DiscordCustomStatus
     
     class TransitCustomStatus
     {
-        [JsonProperty(PropertyName = "text", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("text")]
         public string Text { get; set; }
 
-        [JsonProperty(PropertyName = "emoji_id", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("emoji_id")]
         public string EmojiId { get; set; }
 
-        [JsonProperty(PropertyName = "emoji_name", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("emoji_name")]
         public string EmojiName { get; set; }
 
-        [JsonProperty(PropertyName = "animated", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("animated")]
         public bool Animated;
 
-        [JsonProperty(PropertyName = "time", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("time")]
         public uint Time;
 
         public TransitCustomStatus() { }

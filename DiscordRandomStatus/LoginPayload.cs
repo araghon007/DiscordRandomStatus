@@ -1,24 +1,19 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CompactJson;
 
-namespace DiscordCustomStatus
+namespace DiscordRandomStatus
 {
     class MfaRequest
     {
-        [JsonProperty(PropertyName = "code")]
+        [JsonProperty("code")]
         public string Code { get; set; }
 
-        [JsonProperty(PropertyName = "gift_code_sku_id")]
+        [JsonProperty("gift_code_sku_id")]
         public string GiftCode { get; set; }
 
-        [JsonProperty(PropertyName = "login_source")]
+        [JsonProperty("login_source")]
         public string LoginSource { get; set; }
 
-        [JsonProperty(PropertyName = "ticket")]
+        [JsonProperty("ticket")]
         public string Ticket { get; set; }
 
         public MfaRequest(string code, string ticket)
@@ -29,34 +24,34 @@ namespace DiscordCustomStatus
     }
     class MfaPayload
     {
-        [JsonProperty(PropertyName = "code")]
+        [JsonProperty("code")]
         public int Code { get; internal set; }
 
-        [JsonProperty(PropertyName = "message")]
+        [JsonProperty("message")]
         public string Message { get; internal set; }
 
-        [JsonProperty(PropertyName = "token", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("token")]
         public string Token { get; internal set; }
     }
 
     class LoginRequest
     {
-        [JsonProperty(PropertyName = "captcha_key", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("captcha_key")]
         public string CaptchaKey { get; set; }
 
-        [JsonProperty(PropertyName = "email", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("email")]
         public string Email { get; set; }
 
-        [JsonProperty(PropertyName = "gift_code_sku_id")]
+        [JsonProperty("gift_code_sku_id")]
         public string GiftCode { get; set; }
 
-        [JsonProperty(PropertyName = "login_source")]
+        [JsonProperty("login_source")]
         public string LoginSource { get; set; }
 
-        [JsonProperty(PropertyName = "password", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("password")]
         public string Password { get; set; }
 
-        [JsonProperty(PropertyName = "undelete")]
+        [JsonProperty("undelete")]
         public bool Undelete { get; set; }
 
         public LoginRequest(string email, string password, bool undelete = false)
@@ -69,28 +64,31 @@ namespace DiscordCustomStatus
 
     class LoginPayload
     {
-        [JsonProperty(PropertyName = "captcha_key")]
+        [JsonProperty("captcha_key")]
         public string[] CaptchaKey { get; internal set; }
 
-        [JsonProperty(PropertyName = "email")]
+        [JsonProperty("email")]
         public string[] Email { get; internal set; }
 
-        [JsonProperty(PropertyName = "gift_code_sku_id")]
+        [JsonProperty("gift_code_sku_id")]
         public string[] GiftCode { get; internal set; }
 
-        [JsonProperty(PropertyName = "login_source")]
+        [JsonProperty("login_source")]
         public string[] LoginSource { get; internal set; }
 
-        [JsonProperty(PropertyName = "password")]
+        [JsonProperty("password")]
         public string[] Password { get; internal set; }
 
-        [JsonProperty(PropertyName = "token", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("token")]
         public string Token { get; internal set; }
 
-        [JsonProperty(PropertyName = "ticket", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("ticket")]
         public string Ticket { get; internal set; }
 
-        [JsonProperty(PropertyName = "undelete")]
+        [JsonProperty("undelete")]
         public bool? Undelete { get; internal set; }
+
+        [JsonProperty("errors")]
+        public object Errors { get; internal set; }
     }
 }

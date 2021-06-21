@@ -1,3 +1,6 @@
-[submodule "Typography"]
-	path = Typography
-	url = https://github.com/samhocevar/fork-typography
+[submodule "DiscordRandomStatus/Misc/CompactJson"]
+	path = DiscordRandomStatus/Misc/CompactJson
+	url = https://github.com/pupsette/CompactJson
+[submodule "DiscordRandomStatus/Misc/WpfAnimatedGif"]
+	path = DiscordRandomStatus/Misc/WpfAnimatedGif
+	url = https://github.com/XamlAnimatedGif/WpfAnimatedGif

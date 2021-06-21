@@ -27,19 +27,18 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
+    <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -59,6 +58,94 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Misc\CompactJson\src\CompactJson\ArrayConverter.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\ArrayConverterFactory.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\BooleanConverter.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\ByteArrayConverter.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\CharConverter.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\CollectionConverterBase.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\ConverterBase.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\ConverterFactoryHelper.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\ConverterRegistry.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\CustomConverterFactory.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\DateTimeConverter.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\DictionaryConverter.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\DictionaryConverterFactory.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\DoubleConverter.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\EnumConverter.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\EnumConverterFactory.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\FloatConverter.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\GuidConverter.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\IConverter.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\IConverterFactory.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\IConverterInitialization.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\IJsonArrayConsumer.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\IJsonConsumer.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\IJsonObjectConsumer.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\Int32Converter.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\Int64Converter.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\ITypeNameResolver.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\JsonArray.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\JsonBoolean.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\JsonCustomConverterAttribute.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\JsonEmitNullValueAttribute.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\JsonHashCodeBuilder.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\JsonIgnoreMemberAttribute.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\JsonNull.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\JsonNumber.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\JsonObject.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\JsonPropertyAttribute.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\JsonString.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\JsonSuppressDefaultValueAttribute.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\JsonTypeNameAttribute.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\JsonValue.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\JsonValueConverter.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\JsonValueJsonConsumer.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\ListConverter.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\ListConverterFactory.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\ModelJsonConsumer.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\NullableConverterBase.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\NullableConverterFactory.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\ObjectConverter.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\ObjectConverterFactory.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\ParserException.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\Serializer.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\StringConverter.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\TextWriterJsonConsumer.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\TypedConverter.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\TypedConverterFactory.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\TypeNameResolver.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\UInt32Converter.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\UInt64Converter.cs" />
+    <Compile Include="Misc\CompactJson\src\CompactJson\UnspecificConverter.cs" />
+    <Compile Include="Misc\CustomControls\IntInput.xaml.cs">
+      <DependentUpon>IntInput.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Misc\CustomControls\StatusEntry.xaml.cs">
+      <DependentUpon>StatusEntry.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Misc\Twemoji\Utilities\Constants.cs" />
+    <Compile Include="Misc\Twemoji\Utilities\UnicodeStringParser.cs" />
+    <Compile Include="Misc\WpfAnimatedGif\WpfAnimatedGif\AnimationCache.cs" />
+    <Compile Include="Misc\WpfAnimatedGif\WpfAnimatedGif\Decoding\GifApplicationExtension.cs" />
+    <Compile Include="Misc\WpfAnimatedGif\WpfAnimatedGif\Decoding\GifBlock.cs" />
+    <Compile Include="Misc\WpfAnimatedGif\WpfAnimatedGif\Decoding\GifBlockKind.cs" />
+    <Compile Include="Misc\WpfAnimatedGif\WpfAnimatedGif\Decoding\GifColor.cs" />
+    <Compile Include="Misc\WpfAnimatedGif\WpfAnimatedGif\Decoding\GifCommentExtension.cs" />
+    <Compile Include="Misc\WpfAnimatedGif\WpfAnimatedGif\Decoding\GifDecoderException.cs" />
+    <Compile Include="Misc\WpfAnimatedGif\WpfAnimatedGif\Decoding\GifExtension.cs" />
+    <Compile Include="Misc\WpfAnimatedGif\WpfAnimatedGif\Decoding\GifFile.cs" />
+    <Compile Include="Misc\WpfAnimatedGif\WpfAnimatedGif\Decoding\GifFrame.cs" />
+    <Compile Include="Misc\WpfAnimatedGif\WpfAnimatedGif\Decoding\GifGraphicControlExtension.cs" />
+    <Compile Include="Misc\WpfAnimatedGif\WpfAnimatedGif\Decoding\GifHeader.cs" />
+    <Compile Include="Misc\WpfAnimatedGif\WpfAnimatedGif\Decoding\GifHelpers.cs" />
+    <Compile Include="Misc\WpfAnimatedGif\WpfAnimatedGif\Decoding\GifImageData.cs" />
+    <Compile Include="Misc\WpfAnimatedGif\WpfAnimatedGif\Decoding\GifImageDescriptor.cs" />
+    <Compile Include="Misc\WpfAnimatedGif\WpfAnimatedGif\Decoding\GifLogicalScreenDescriptor.cs" />
+    <Compile Include="Misc\WpfAnimatedGif\WpfAnimatedGif\Decoding\GifPlainTextExtension.cs" />
+    <Compile Include="Misc\WpfAnimatedGif\WpfAnimatedGif\Decoding\GifTrailer.cs" />
+    <Compile Include="Misc\WpfAnimatedGif\WpfAnimatedGif\ImageAnimationController.cs" />
+    <Compile Include="Misc\WpfAnimatedGif\WpfAnimatedGif\ImageBehavior.cs" />
     <Compile Include="UserSettings.cs" />
     <Page Include="LoginPage.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -79,9 +166,7 @@
     <Compile Include="ClientProperties.cs" />
     <Compile Include="DataStore.cs" />
     <Compile Include="DiscordClient.cs" />
-    <Compile Include="DiscordEmoji.cs" />
     <Compile Include="DiscordEventArgs.cs" />
-    <Compile Include="DiscordGuild.cs" />
     <Compile Include="LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
@@ -93,118 +178,16 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Misc\CustomControls\AnimatedImage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Misc\CustomControls\IntInput.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
     <Page Include="Misc\CustomControls\StatusEntry.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Misc\Emoji\Picker.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Misc\Emoji\RichTextBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Misc\Emoji\TextBlock.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Misc\CustomControls\AnimatedImage.xaml.cs">
-      <DependentUpon>AnimatedImage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Misc\CustomControls\IntInput.xaml.cs">
-      <DependentUpon>IntInput.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Misc\CustomControls\StatusEntry.xaml.cs">
-      <DependentUpon>StatusEntry.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Misc\Emoji\Data.cs" />
-    <Compile Include="Misc\Emoji\EmojiInline.cs" />
-    <Compile Include="Misc\Emoji\EmojiRenderer.cs" />
-    <Compile Include="Misc\Emoji\OpenTypeFont.cs" />
-    <Compile Include="Misc\Emoji\Picker.xaml.cs">
-      <DependentUpon>Picker.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Misc\Emoji\RichTextBox.xaml.cs">
-      <DependentUpon>RichTextBox.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Misc\Emoji\TextBlock.xaml.cs">
-      <DependentUpon>TextBlock.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Misc\WpfMouseWheelLib\ComponentModel\ObservableObject.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\ComponentModel\StringableConverter.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Diagnostics\TimeBase.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\DictionaryExtensions.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\DoubleEx.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\MathEx.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Maths\AffineFunction.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Maths\Function.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Maths\Int32Function.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Maths\Int32HysteronGenerator.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Maths\LinearFilter.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Maths\LowPassFilter.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Maths\RefFunc.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\Controls\ScrollViewerExtensions.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\Controls\TextBoxExtensions.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\Data\BooleanToWaitCursorConverter.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\Data\DummyConverter.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\Data\EnumToBooleanConverter.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\DependencyObjectExtensions.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\DependencyPropertyExtensions.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\FrameworkLevelElement.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\InputElementExtensions.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\InputLevelElement.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\MouseDeviceExtensions.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\MouseWheel\Adapting\MouseWheelAdaptationBehavior.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\MouseWheel\Adapting\MouseWheelAdaptationClient.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\MouseWheel\MouseWheel.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\MouseWheel\MouseWheelBehavior.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\MouseWheel\MouseWheelClient.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\MouseWheel\MouseWheelController.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\MouseWheel\MouseWheelDebouncing.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\MouseWheel\MouseWheelFilter.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\MouseWheel\MouseWheelFrameworkLevelController.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\MouseWheel\MouseWheelInputEventArgs.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\MouseWheel\MouseWheelInputListener.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\MouseWheel\MouseWheelShaft.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\MouseWheel\MouseWheelSmoothing.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\MouseWheel\MouseWheelTransferCase.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\MouseWheel\Scrolling\MouseWheelFlowDocumentPageViewerScrollClient.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\MouseWheel\Scrolling\MouseWheelScrollBehavior.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\MouseWheel\Scrolling\MouseWheelScrollClient.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\MouseWheel\Scrolling\MouseWheelScrollIncrement.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\MouseWheel\Scrolling\MouseWheelScrollMode.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\MouseWheel\Zooming\MouseWheelZoomBehavior.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\MouseWheel\Zooming\MouseWheelZoomClient.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\MouseWheel\Zooming\MouseWheelZoomMode.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\Input\RelayCommand.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\MotionFlow\MotionElement.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\MotionFlow\MotionFilter.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\MotionFlow\MotionInfo.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\MotionFlow\MotionInput.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\MotionFlow\MotionOutput.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\MotionFlow\MotionSink.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\MotionFlow\MotionSource.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\MotionFlow\MotionTarget.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\MotionFlow\MotionTerminal.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\MotionFlow\MotionTransfer.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\MotionFlow\MotionTransferCase.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\MotionFlow\MotionTransferEventArgs.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\MotionFlow\MotionTransferGroup.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\MotionFlow\MotionTransform.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\SystemParametersEx.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\UserPreferenceChangedEventManager.cs" />
-    <Compile Include="Misc\WpfMouseWheelLib\Windows\ZoomElement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -222,7 +205,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="packages.config" />
+    <None Include="Misc\CompactJson\LICENSE" />
+    <None Include="Misc\CompactJson\README.md" />
+    <None Include="Misc\WpfAnimatedGif\README.md" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -232,22 +217,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Misc\Emoji\emoji-test.txt" />
-    <Resource Include="Misc\Emoji\WinFonts\webdings.txt" />
-    <Resource Include="Misc\Emoji\WinFonts\wingdings.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Typography\Build\N20\Typography.GlyphLayout\Typography.GlyphLayout.csproj">
-      <Project>{c6807d05-09be-4313-9f8b-bd2d51c55819}</Project>
-      <Name>Typography.GlyphLayout</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Typography\Build\N20\Typography.OpenFont\Typography.OpenFont.csproj">
-      <Project>{f7d71e61-9342-4dd7-9afd-69045f2ec98b}</Project>
-      <Name>Typography.OpenFont</Name>
-    </ProjectReference>
+    <Resource Include="Misc\WpfAnimatedGif\LICENSE.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

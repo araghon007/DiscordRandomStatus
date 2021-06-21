@@ -1,10 +1,9 @@
-﻿<UserControl x:Class="DiscordCustomStatus.StatusEntry"
+﻿<UserControl x:Class="DiscordRandomStatus.StatusEntry"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:DiscordCustomStatus"
-             xmlns:emoji="clr-namespace:Emoji.Wpf"
+             xmlns:local="clr-namespace:DiscordRandomStatus"
              mc:Ignorable="d">
     <StackPanel Orientation="Horizontal" Height="40">
         <Grid Width="400">
@@ -52,7 +51,7 @@
                         </Grid>
                     </Viewbox>
                     <Image x:Name="imga" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="22" Height="22" RenderOptions.BitmapScalingMode="HighQuality"/>
-                    <emoji:TextBlock x:Name="emo"  Text="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" Padding="0,0,0,2"/>
+                    <TextBlock x:Name="emo"  Text="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" Padding="0,0,0,2"/>
                 </Grid>
             </ToggleButton>
             <Path x:Name="pth" Visibility="Hidden" Opacity="0.6" Fill="#B9BBBE" Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Center" Cursor="Hand" MouseUp="TextusDeletus" MouseLeave="Unhoover" MouseEnter="Hoover">

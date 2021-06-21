@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using DiscordRandomStatus;
+using TwemojiNet.Utilities;
+using WpfAnimatedGif;
 
-namespace DiscordCustomStatus
+namespace DiscordRandomStatus
 {
     /// <summary>
     /// Interaction logic for StatusEntry.xaml
@@ -87,20 +83,42 @@ namespace DiscordCustomStatus
             customStatus.EmojiName = null;
             if (string.IsNullOrEmpty(txt))
             {
+                if (!string.IsNullOrEmpty(Text.Text))
+                {
+                    pth.Visibility = Visibility.Hidden;
+                    Placeholder.Visibility = Visibility.Visible;
+                }
                 emoj.Visibility = Visibility.Visible;
                 emo.Text = "";
                 imga.Source = null;
             }
             else
             {
+                var testt = UnicodeStringParser.ToCodePoints(txt);
+
+                var a = string.Join("-", testt);
+
+                if (!UnicodeStringParser.IsValidEmoji(a))
+                {
+                    a = testt.FirstOrDefault();
+                }
+
                 if (txt[0] == '<' && txt.Length > 1)
                 {
                     emoj.Visibility = Visibility.Hidden;
                     emo.Text = "";
-                    var aa = txt.Split(new char[] { ':', '>' });
+                    var aa = txt.Split(':', '>');
                     if (txt[1] == 'a')
                     {
-                        imga.Source = new BitmapImage(new Uri($"https://cdn.discordapp.com/emojis/{aa[2]}.gif"));
+                        var image = new BitmapImage();
+                        image.DownloadCompleted += (sen, ev) =>
+                        {
+                            ImageBehavior.SetAnimatedSource(imga, image);
+                        };
+                        image.BeginInit();
+                        image.UriSource = new Uri($"https://cdn.discordapp.com/emojis/{aa[2]}.gif");
+                        image.EndInit();
+                        imga.Source = image;
                         customStatus.EmojiName = aa[1];
                         customStatus.EmojiId = aa[2];
                         customStatus.Animated = true;
@@ -112,6 +130,13 @@ namespace DiscordCustomStatus
                         customStatus.EmojiId = aa[2];
                     }
                 }
+                else if (!string.IsNullOrEmpty(a))
+                {
+                    emoj.Visibility = Visibility.Hidden;
+                    emo.Text = "";
+                    imga.Source = new BitmapImage(new Uri($"https://twemoji.maxcdn.com/v/latest/72x72/{a}.png"));
+                    customStatus.EmojiName = txt;
+                }
                 else
                 {
                     emoj.Visibility = Visibility.Hidden;
@@ -119,6 +144,8 @@ namespace DiscordCustomStatus
                     emo.Text = txt;
                     customStatus.EmojiName = txt;
                 }
+                if (!(pth is null)) pth.Visibility = Visibility.Visible;
+                Placeholder.Visibility = Visibility.Hidden;
             }
         }
 
@@ -140,6 +167,12 @@ namespace DiscordCustomStatus
             {
                 Text.Text = "";
                 customStatus.Text = "";
+                customStatus.EmojiId = null;
+                customStatus.EmojiName = null;
+                emoj.Visibility = Visibility.Visible;
+                emo.Text = "";
+                imga.Source = null;
+                pth.Visibility = Visibility.Hidden;
             }
         }
 

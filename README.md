@@ -14,8 +14,6 @@ You can find settings and whatnot under %AppData%/araghon007/DiscordRandomCustom
 I tried to make this app as secure as I knew how  
 
 The token is stored using System.Security.Cryptography, which should make the resulting file only decryptable on your account, on your computer  
-
-The executable in releases is just a painstaking merge of the main project and Newtonsoft.Json + Typography, so they aren't in separate assemblies  
 # Todo
 Clean up the code like, a lot  
 

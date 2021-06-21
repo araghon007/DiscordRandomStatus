@@ -1,15 +1,11 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CompactJson;
 
-namespace DiscordCustomStatus
+namespace DiscordRandomStatus
 {
     public class UserSettings
     {
-        [JsonProperty(PropertyName = "custom_status")]
+        [JsonEmitNullValue]
+        [JsonProperty("custom_status")]
         public CustomStatus CustomStatus { get; set; }
 
         public UserSettings(CustomStatus status)
@@ -20,16 +16,16 @@ namespace DiscordCustomStatus
 
     public class CustomStatus
     {
-        [JsonProperty(PropertyName = "text", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("text")]
         public string Text { get; set; }
 
-        [JsonProperty(PropertyName = "emoji_id", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("emoji_id")]
         public string EmojiId { get; set; }
 
-        [JsonProperty(PropertyName = "emoji_name", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("emoji_name")]
         public string EmojiName { get; set; }
 
-        [JsonIgnore]
+        [JsonIgnoreMember]
         public string EmojiFull {
             get{
                 if (!string.IsNullOrEmpty(EmojiId))
@@ -44,10 +40,10 @@ namespace DiscordCustomStatus
             }
         }
 
-        [JsonIgnore]
+        [JsonIgnoreMember]
         public bool Animated;
 
-        [JsonIgnore]
+        [JsonIgnoreMember]
         public uint Time;
 
         public CustomStatus(string text = null, string emojiId = null, string emojiName = null, bool animated = false, uint time = 10)

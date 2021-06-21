@@ -1,29 +1,25 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Diagnostics;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using CompactJson;
 
-namespace DiscordCustomStatus
+namespace DiscordRandomStatus
 {
     // List of strings useful for the API
     static class DiscordAPI
     {
-        public static string apiUrl { get { return $"{apiEndpoint}/v{apiVersion}"; } }
-        public static int apiVersion { get { return 6; } }
-        public static string baseAddress { get { return "https://discordapp.com"; } }
-        public static string apiEndpoint { get { return "/api"; } }
-        public static string loginEndpoint { get { return $"{apiUrl}/auth/login"; } }
-        public static string mfaEndpoint { get { return $"{apiUrl}/auth/mfa/totp"; } }
-        public static string userEndpoint { get { return $"{apiUrl}/users/@me"; } }
-        public static string settingsEndpoint { get { return $"{userEndpoint}/settings"; } }
-        public static string guildsEndpoint { get { return $"{userEndpoint}/guilds"; } }
-        public static string gatewayEndpoint { get { return $"{apiUrl}/gateway"; } }
+        public static string apiUrl => $"{apiEndpoint}/v{apiVersion}";
+        public static int apiVersion => 9;
+        public static string baseAddress => "https://discordapp.com";
+        public static string apiEndpoint => "/api";
+        public static string loginEndpoint => $"{apiUrl}/auth/login";
+        public static string mfaEndpoint => $"{apiUrl}/auth/mfa/totp";
+        public static string userEndpoint => $"{apiUrl}/users/@me";
+        public static string settingsEndpoint => $"{userEndpoint}/settings";
     }
 
     class DiscordRestClient : HttpClient
@@ -37,7 +33,7 @@ namespace DiscordCustomStatus
             // I forgot why this is here
             DefaultRequestHeaders.ExpectContinue = false;
 
-            DefaultRequestHeaders.Add("Accept-Encoding", new string[] { "gzip", "deflate", "br" });
+            DefaultRequestHeaders.Add("Accept-Encoding", new [] { "gzip", "deflate" });
             DefaultRequestHeaders.Add("Accept-Language", "en-US");
             DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) discord/0.0.690 Chrome/69.0.3497.128 Electron/4.0.8 Safari/537.36");
             DefaultRequestHeaders.Add("Accept", "*/*");
@@ -59,7 +55,7 @@ namespace DiscordCustomStatus
             }
             catch (TaskCanceledException e)
             {
-                Debug.WriteLine("ERROR: " + e.ToString());
+                Debug.WriteLine("ERROR: " + e);
             }
 
             return response;
@@ -68,17 +64,17 @@ namespace DiscordCustomStatus
 
     class JsonContent : StringContent
     {
-        public JsonContent(object content) : base(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json")
+        public JsonContent(object content) : base(Serializer.ToString(content, false), Encoding.UTF8, "application/json")
         {
             // I forgot why I have to set the character set to null, but if anyone figures this out, you can have a cookie
             Headers.ContentType.CharSet = null;
             Headers.Add("Origin", "https://discordapp.com");
 
             // Find a proper way of creating client properties - json data encoded using base64
-            Headers.Add("X-Super-Properties", Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(new ClientProperties()))));
+            Headers.Add("X-Super-Properties", Convert.ToBase64String(Encoding.UTF8.GetBytes(Serializer.ToString(new ClientProperties(), false))));
 
             // Figure out how to generate this one, quick - composed of snowflake and something that may have connection to the way tokens are generated
-            long fingerprintSnowflake = (DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() - 1420070400000) << 22;
+            var fingerprintSnowflake = (DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() - 1420070400000) << 22;
 
             Headers.Add("X-Fingerprint", $"{fingerprintSnowflake}.R3Uv_45gCvcCNmYX8r4xw_b2A2A");
 
@@ -107,13 +103,13 @@ namespace DiscordCustomStatus
             Debug.WriteLine($"{response.StatusCode}: {await response.Content.ReadAsStringAsync()}");
             if(response.StatusCode == HttpStatusCode.Unauthorized)
             {
-                LoginError(new LoginErrorEventArgs(this, new string[] { "Invalid token" }));
+                LoginError?.Invoke(new LoginErrorEventArgs(this, "Invalid token"));
                 Debug.WriteLine("Invalid token");
             }
             else if(response.IsSuccessStatusCode)
             {
                 DataStore.SaveToken(token);
-                Ready(new ReadyEventArgs(this));
+                Ready?.Invoke(new ReadyEventArgs(this));
             }
         }
 
@@ -128,63 +124,20 @@ namespace DiscordCustomStatus
             var content = new JsonContent(log);
 
             var response = await client.PostAsync(DiscordAPI.loginEndpoint, content);
-            var responseObject = JsonConvert.DeserializeObject<LoginPayload>(await response.Content.ReadAsStringAsync());
+            var ree = await response.Content.ReadAsStringAsync();
+            var responseObject = Serializer.Parse<LoginPayload>(ree);
 
             client.DefaultRequestHeaders.Remove("Referer");
             if (response.StatusCode == HttpStatusCode.BadRequest)
             {
-                var errors = new List<string> { };
-                if (responseObject.Email != null)
+                if (responseObject.Errors != null)
                 {
-                    foreach (var mail in responseObject.Email)
-                    {
-                        errors.Add(mail);
-                        Debug.WriteLine(mail);
-                    }
-                }
-                if (responseObject.Password != null)
-                {
-                    foreach (var pass in responseObject.Password)
-                    {
-                        errors.Add(pass);
-                        Debug.WriteLine(pass);
-                    }
+                    LoginError?.Invoke(new LoginErrorEventArgs(this, "Wrong email or password"));
                 }
                 if (responseObject.CaptchaKey != null)
                 {
-                    foreach (var captcha in responseObject.CaptchaKey)
-                    {
-                        errors.Add(captcha);
-                        Debug.WriteLine(captcha);
-                    }
+                    LoginError?.Invoke(new LoginErrorEventArgs(this, "Log in and out of Discord and solve the captcha."));
                 }
-                if (!string.IsNullOrEmpty(responseObject.Token))
-                {
-                    errors.Add(responseObject.Token);
-                    Debug.WriteLine(responseObject.Token);
-                }
-                if (responseObject.Undelete.HasValue)
-                {
-                    errors.Add("Undelete: " + responseObject.Undelete);
-                    Debug.WriteLine("Undelete: " + responseObject.Undelete);
-                }
-                if (responseObject.LoginSource != null)
-                {
-                    foreach (var login in responseObject.LoginSource)
-                    {
-                        errors.Add(login);
-                        Debug.WriteLine(login);
-                    }
-                }
-                if (responseObject.GiftCode != null)
-                {
-                    foreach (var gift in responseObject.GiftCode)
-                    {
-                        errors.Add(gift);
-                        Debug.WriteLine(gift);
-                    }
-                }
-                LoginError(new LoginErrorEventArgs(this, errors.ToArray()));
             }
             else if (response.IsSuccessStatusCode)
             {
@@ -199,7 +152,7 @@ namespace DiscordCustomStatus
                     }
                     else
                     {
-                        LoginError(new LoginErrorEventArgs(this, new string[] { "Unknown error" }));
+                        LoginError?.Invoke(new LoginErrorEventArgs(this, "Unknown error"));
                         Debug.WriteLine("Unknown error");
                     }
                 }
@@ -208,12 +161,12 @@ namespace DiscordCustomStatus
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(responseObject.Token);
                     client.DefaultRequestHeaders.Add("Referer", "https://discordapp.com/channels/@me");
                     DataStore.SaveToken(responseObject.Token);
-                    Ready(new ReadyEventArgs(this));
+                    Ready?.Invoke(new ReadyEventArgs(this));
                 }
             }
             else
             {
-                LoginError(new LoginErrorEventArgs(this, new string[] { "Error " + response.StatusCode }));
+                LoginError?.Invoke(new LoginErrorEventArgs(this, "Error " + response.StatusCode));
                 Debug.WriteLine("Error " + response.StatusCode);
             }
         }
@@ -225,30 +178,24 @@ namespace DiscordCustomStatus
             var content = new JsonContent(log);
 
             var response = await client.PostAsync(DiscordAPI.mfaEndpoint, content);
-            var responseObject = JsonConvert.DeserializeObject<MfaPayload>(await response.Content.ReadAsStringAsync());
+            var responseObject = Serializer.Parse<MfaPayload>(await response.Content.ReadAsStringAsync());
 
             client.DefaultRequestHeaders.Remove("Referer");
 
             if (response.StatusCode == HttpStatusCode.BadRequest)
             {
-                var errors = new List<string> { };
                 if (responseObject.Message != null)
                 {
-                    errors.Add(responseObject.Message);
+                    LoginError?.Invoke(new LoginErrorEventArgs(this, responseObject.Message));
                     Debug.WriteLine(responseObject.Message);
                 }
-                if (responseObject.Token != null)
-                {
-                    errors.Add(responseObject.Token);
-                    Debug.WriteLine(responseObject.Token);
-                }
-                LoginError(new LoginErrorEventArgs(this, errors.ToArray()));
+                
             }
             else if (response.IsSuccessStatusCode)
             {
                 if (string.IsNullOrEmpty(responseObject.Token))
                 {
-                    LoginError(new LoginErrorEventArgs(this, new string[] { "Unknown error" }));
+                    LoginError?.Invoke(new LoginErrorEventArgs(this, "Unknown error"));
                     Debug.WriteLine("Unknown error");
                 }
                 else
@@ -256,12 +203,12 @@ namespace DiscordCustomStatus
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(responseObject.Token);
                     client.DefaultRequestHeaders.Add("Referer", "https://discordapp.com/channels/@me");
                     DataStore.SaveToken(responseObject.Token);
-                    Ready(new ReadyEventArgs(this));
+                    Ready?.Invoke(new ReadyEventArgs(this));
                 }
             }
             else
             {
-                LoginError(new LoginErrorEventArgs(this, new string[] { "Error " + response.StatusCode }));
+                LoginError?.Invoke(new LoginErrorEventArgs(this, "Error " + response.StatusCode));
                 Debug.WriteLine("Error " + response.StatusCode);
             }
         }

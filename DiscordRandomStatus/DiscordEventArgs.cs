@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DiscordCustomStatus
+namespace DiscordRandomStatus
 {
 
     public delegate void DiscordEventHandler<T>(T e);
@@ -22,7 +22,7 @@ namespace DiscordCustomStatus
     }
     public sealed class LoginErrorEventArgs : DiscordEventArgs
     {
-        public string[] Errors;
-        internal LoginErrorEventArgs(DiscordClient client, string[] errors) : base(client) { Errors = errors; }
+        public string Error;
+        internal LoginErrorEventArgs(DiscordClient client, string error) : base(client) { Error = error; }
     }
 }

@@ -1,42 +1,43 @@
-﻿using Newtonsoft.Json;
+﻿using CompactJson;
 
-namespace DiscordCustomStatus
+namespace DiscordRandomStatus
 {
     class ClientProperties
     {
-        [JsonProperty(PropertyName = "os")]
+        [JsonProperty("os")]
         public string OS { get; internal set; }
 
-        [JsonProperty(PropertyName = "browser")]
+        [JsonProperty("browser")]
         public string Browser { get; internal set; }
 
-        [JsonProperty(PropertyName = "release_channel")]
+        [JsonProperty("release_channel")]
         public string ReleaseChannel { get; internal set; }
 
-        [JsonProperty(PropertyName = "client_version")]
+        [JsonProperty("client_version")]
         public string ClientVersion { get; internal set; }
 
-        [JsonProperty(PropertyName = "os_version")]
+        [JsonProperty("os_version")]
         public string OSversion { get; internal set; }
 
-        [JsonProperty(PropertyName = "os_arch")]
+        [JsonProperty("os_arch")]
         public string OSarch { get; internal set; }
 
-        [JsonProperty(PropertyName = "client_build_number")]
+        [JsonProperty("client_build_number")]
         public int BuildNumber { get; internal set; }
 
-        [JsonProperty(PropertyName = "client_event_source")]
+        [JsonProperty("client_event_source")]
         public string EventSource { get; internal set; }
 
+        // TODO: Add proper OS detection
         public ClientProperties()
         {
             OS = "Windows";
             Browser = "Discord Client";
-            ReleaseChannel = "staging";
-            ClientVersion = "0.0.690";
-            OSversion = "10.0.18362";
+            ReleaseChannel = "canary";
+            ClientVersion = "1.0.36";
+            OSversion = "10.0.19042";
             OSarch = "x64";
-            BuildNumber = 44690;
+            BuildNumber = 88173;
         }
     }
 }

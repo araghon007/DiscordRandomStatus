@@ -5,7 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace DiscordCustomStatus
+namespace DiscordRandomStatus
 {
     /// <summary>
     /// Interaction logic for IntInput.xaml

@@ -1,35 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
-namespace DiscordCustomStatus
+namespace DiscordRandomStatus
 {
     /// <summary>
     /// Interaction logic for MainPage.xaml
     /// </summary>
-    public partial class MainPage : Page
+    public partial class MainPage
     {
         private Timer statusTimer;
 
         private static Random random = new Random();
 
-        private CustomStatus status;
+        private CustomStatus currStatus;
 
-        private List<StatusEntry> Entries = new List<StatusEntry> { };
+        private List<StatusEntry> Entries = new List<StatusEntry>();
 
         public MainPage()
         {
@@ -51,7 +39,6 @@ namespace DiscordCustomStatus
                 {
                     for(int x = arrays[i].Statuses.Length - 1; x >= 0; x--)
                     {
-
                         AddEntry(arrays[i].Statuses[x].GetStatus());
                     }
                 }
@@ -101,23 +88,23 @@ namespace DiscordCustomStatus
 
         private void AddEntry(CustomStatus status = null)
         {
-            StatusEntry stats;
+            StatusEntry statusEntry;
             if(status == null)
             {
-                stats = new StatusEntry();
+                statusEntry = new StatusEntry();
                 Interrupt();
             }
             else
             {
-                stats = new StatusEntry(status);
+                statusEntry = new StatusEntry(status);
             }
-            stats.Margin = new Thickness(0, 0, 0, 10);
-            stats.CloseButton.Click += new RoutedEventHandler((s, x) => CloseButtnClcl(stats));
-            stats.Text.TextChanged += new TextChangedEventHandler((s, x) => Interrupt());
-            stats.EmojText.TextChanged += new TextChangedEventHandler((s, x) => Interrupt());
-            stats.TimeSeconds.TextBox.TextChanged += new TextChangedEventHandler((s, x) => Interrupt());
-            VerticalStack.Children.Insert(1, stats);
-            Entries.Insert(0, stats);
+            statusEntry.Margin = new Thickness(0, 0, 0, 10);
+            statusEntry.CloseButton.Click += (s, x) => CloseButtnClcl(statusEntry);
+            statusEntry.Text.TextChanged += (s, x) => Interrupt();
+            statusEntry.EmojText.TextChanged += (s, x) => Interrupt();
+            statusEntry.TimeSeconds.TextBox.TextChanged += (s, x) => Interrupt();
+            VerticalStack.Children.Insert(1, statusEntry);
+            Entries.Insert(0, statusEntry);
             Count.Text = Entries.Count.ToString();
         }
 
@@ -133,22 +120,13 @@ namespace DiscordCustomStatus
         {
             Debug.WriteLine(Entries.Count);
             statusTimer.Stop();
-            /*
-            if (random.NextDouble() > 0.95)
-            {
-                status = StatusList.ListRare[random.Next(StatusList.ListRare.Count())];
-            }
-            else
-            {
-            */
-                status = (Entries[random.Next(Entries.Count)] as StatusEntry).customStatus;
             
-            //}
+            currStatus = Entries[random.Next(Entries.Count)].customStatus;
 
-            statusTimer.Interval = status.Time * 1000;
-            App.client.SetStatus(status);
+            statusTimer.Interval = currStatus.Time * 1000;
+            App.client.SetStatus(currStatus);
             statusTimer.Start();
-            Debug.WriteLine("Changed! " + status.Text);
+            Debug.WriteLine("Changed! " + currStatus.Text);
         }
 
         private void Save(object sender, RoutedEventArgs e)
@@ -159,7 +137,7 @@ namespace DiscordCustomStatus
             {
                 statuses[i] = new TransitCustomStatus(Entries[i].customStatus);
             }
-            DataStore.Save(new StatusArray[] { new StatusArray(statuses) });
+            DataStore.Save(new [] { new StatusArray(statuses) });
         }
     }
 }
