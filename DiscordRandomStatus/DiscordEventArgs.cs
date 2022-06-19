@@ -25,4 +25,10 @@ namespace DiscordRandomStatus
         public string Error;
         internal LoginErrorEventArgs(DiscordClient client, string error) : base(client) { Error = error; }
     }
+
+    public sealed class LoginEventArgs : DiscordEventArgs
+    {
+        public LoginPayload LoginPayload;
+        internal LoginEventArgs(DiscordClient client, LoginPayload loginPayload) : base(client) { LoginPayload = loginPayload; }
+    }
 }

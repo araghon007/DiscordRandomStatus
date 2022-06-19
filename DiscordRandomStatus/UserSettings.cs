@@ -8,6 +8,8 @@ namespace DiscordRandomStatus
         [JsonProperty("custom_status")]
         public CustomStatus CustomStatus { get; set; }
 
+        public UserSettings() { }
+
         public UserSettings(CustomStatus status)
         {
             CustomStatus = status;
@@ -45,6 +47,8 @@ namespace DiscordRandomStatus
 
         [JsonIgnoreMember]
         public uint Time;
+
+        public CustomStatus() { }
 
         public CustomStatus(string text = null, string emojiId = null, string emojiName = null, bool animated = false, uint time = 10)
         {

@@ -36,7 +36,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>icon.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -226,7 +226,7 @@
     <Resource Include="Misc\WpfAnimatedGif\LICENSE.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="icon.ico" />
+    <None Include="Resources\captchaFix.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

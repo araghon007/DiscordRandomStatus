@@ -59,5 +59,25 @@ namespace DiscordRandomStatus.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to var e = document.querySelectorAll(&apos;body &gt; div:not(.sample-form), body &gt; br, legend, label, input&apos;)
+        ///e.forEach(test =&gt; test.style.display = &quot;none&quot;)
+        ///
+        ///var bord = document.getElementsByTagName(&apos;fieldset&apos;)[0]
+        ///bord.style.padding = 0
+        ///bord.style.border = 0
+        ///
+        ///var testee = document.querySelector(&quot;.hcaptcha-success&quot;);
+        ///var observation = new MutationObserver(
+        ///function(mutationsList, observer) {
+        ///    if(mutationsList[0].addedNodes[0].data == &apos;Challenge Success!&apos;){
+        ///		window.external.SolveCaptcha(hcaptcha.getRespon [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string captchaFix {
+            get {
+                return ResourceManager.GetString("captchaFix", resourceCulture);
+            }
+        }
     }
 }

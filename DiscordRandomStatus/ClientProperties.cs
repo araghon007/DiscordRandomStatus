@@ -33,11 +33,11 @@ namespace DiscordRandomStatus
         {
             OS = "Windows";
             Browser = "Discord Client";
-            ReleaseChannel = "canary";
-            ClientVersion = "1.0.36";
-            OSversion = "10.0.19042";
+            ReleaseChannel = "stable";
+            ClientVersion = "1.0.9005";
+            OSversion = "10.0.19043";
             OSarch = "x64";
-            BuildNumber = 88173;
+            BuildNumber = 132831;
         }
     }
 }

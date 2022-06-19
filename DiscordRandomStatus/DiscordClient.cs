@@ -13,11 +13,14 @@ namespace DiscordRandomStatus
     static class DiscordAPI
     {
         public static string apiUrl => $"{apiEndpoint}/v{apiVersion}";
+        public static string authUrl => $"{apiEndpoint}/v{apiVersion}/auth";
         public static int apiVersion => 9;
         public static string baseAddress => "https://discordapp.com";
         public static string apiEndpoint => "/api";
-        public static string loginEndpoint => $"{apiUrl}/auth/login";
-        public static string mfaEndpoint => $"{apiUrl}/auth/mfa/totp";
+        public static string loginEndpoint => $"{authUrl}/login";
+        public static string mfaEndpoint => $"{authUrl}/mfa/totp";
+        public static string fingerprintEndpoint => $"{authUrl}/fingerprint";
+        public static string experimentsEndpoint => $"{apiUrl}/experiments";
         public static string userEndpoint => $"{apiUrl}/users/@me";
         public static string settingsEndpoint => $"{userEndpoint}/settings";
     }
@@ -68,18 +71,12 @@ namespace DiscordRandomStatus
         {
             // I forgot why I have to set the character set to null, but if anyone figures this out, you can have a cookie
             Headers.ContentType.CharSet = null;
-            Headers.Add("Origin", "https://discordapp.com");
+            Headers.Add("Origin", "https://discord.com");
+            
+            //Headers.Add("Referer", "https://discord.com/login");
 
             // Find a proper way of creating client properties - json data encoded using base64
             Headers.Add("X-Super-Properties", Convert.ToBase64String(Encoding.UTF8.GetBytes(Serializer.ToString(new ClientProperties(), false))));
-
-            // Figure out how to generate this one, quick - composed of snowflake and something that may have connection to the way tokens are generated
-            var fingerprintSnowflake = (DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() - 1420070400000) << 22;
-
-            Headers.Add("X-Fingerprint", $"{fingerprintSnowflake}.R3Uv_45gCvcCNmYX8r4xw_b2A2A");
-
-            // I don't know
-            Headers.Add("X-Debug-Options", "trace,canary,logGatewayEvents,logOverlayEvents");
         }
     }
 
@@ -89,7 +86,10 @@ namespace DiscordRandomStatus
         // Ready event
         public event DiscordEventHandler<ReadyEventArgs> Ready;
         // Login error event
-        public event DiscordEventHandler<LoginErrorEventArgs> LoginError;
+        public event DiscordEventHandler<LoginErrorEventArgs> LoginErrorEvent;
+        public event DiscordEventHandler<LoginEventArgs> LoginCaptchaEvent;
+        public event DiscordEventHandler<LoginEventArgs> LoginMfaEvent;
+        public event DiscordEventHandler<LoginErrorEventArgs> LoginMfaErrorEvent;
         private readonly DiscordRestClient client = new DiscordRestClient();
 
         // Login using token, sets Authorization header and tests if the token is valid by sending a GET request to user API endpoint
@@ -103,7 +103,7 @@ namespace DiscordRandomStatus
             Debug.WriteLine($"{response.StatusCode}: {await response.Content.ReadAsStringAsync()}");
             if(response.StatusCode == HttpStatusCode.Unauthorized)
             {
-                LoginError?.Invoke(new LoginErrorEventArgs(this, "Invalid token"));
+                LoginErrorEvent?.Invoke(new LoginErrorEventArgs(this, "Invalid token"));
                 Debug.WriteLine("Invalid token");
             }
             else if(response.IsSuccessStatusCode)
@@ -113,18 +113,24 @@ namespace DiscordRandomStatus
             }
         }
 
+        public void Login(string email, string password)
+        {
+            Login(email, password, null);
+        }
+
         // Logs in using email and password
-        public async void Login(string email, string password, string code)
+        public async void Login(string email, string password, string captchaKey)
         {
             client.DefaultRequestHeaders.Remove("Referer");
             client.DefaultRequestHeaders.Add("Referer", "https://discordapp.com/login");
 
-            var log = new LoginRequest(email, password);
+            var log = new LoginRequest(email, password, captchaKey);
 
             var content = new JsonContent(log);
 
             var response = await client.PostAsync(DiscordAPI.loginEndpoint, content);
             var ree = await response.Content.ReadAsStringAsync();
+            Debug.WriteLine(ree);
             var responseObject = Serializer.Parse<LoginPayload>(ree);
 
             client.DefaultRequestHeaders.Remove("Referer");
@@ -132,11 +138,18 @@ namespace DiscordRandomStatus
             {
                 if (responseObject.Errors != null)
                 {
-                    LoginError?.Invoke(new LoginErrorEventArgs(this, "Wrong email or password"));
+                    LoginErrorEvent?.Invoke(new LoginErrorEventArgs(this, "Wrong email or password"));
                 }
                 if (responseObject.CaptchaKey != null)
                 {
-                    LoginError?.Invoke(new LoginErrorEventArgs(this, "Log in and out of Discord and solve the captcha."));
+                    if(responseObject.CaptchaService == "hcaptcha")
+                    {
+                        LoginCaptchaEvent?.Invoke(new LoginEventArgs(this, responseObject));
+                    }
+                    else
+                    {
+                        LoginErrorEvent?.Invoke(new LoginErrorEventArgs(this, $"You need to solve a {responseObject.CaptchaService}, unfortunately I don't support that one"));
+                    }
                 }
             }
             else if (response.IsSuccessStatusCode)
@@ -148,11 +161,11 @@ namespace DiscordRandomStatus
                         client.DefaultRequestHeaders.Add("Referer", "https://discordapp.com/channels/login");
                         // Adds a delay so we don't get ratelimited
                         //await Task.Delay(1500);
-                        LoginMfa(responseObject.Ticket, code);
+                        LoginMfaEvent?.Invoke(new LoginEventArgs(this, responseObject));
                     }
                     else
                     {
-                        LoginError?.Invoke(new LoginErrorEventArgs(this, "Unknown error"));
+                        LoginErrorEvent?.Invoke(new LoginErrorEventArgs(this, "Unknown error"));
                         Debug.WriteLine("Unknown error");
                     }
                 }
@@ -166,7 +179,7 @@ namespace DiscordRandomStatus
             }
             else
             {
-                LoginError?.Invoke(new LoginErrorEventArgs(this, "Error " + response.StatusCode));
+                LoginErrorEvent?.Invoke(new LoginErrorEventArgs(this, "Error " + response.StatusCode));
                 Debug.WriteLine("Error " + response.StatusCode);
             }
         }
@@ -184,18 +197,21 @@ namespace DiscordRandomStatus
 
             if (response.StatusCode == HttpStatusCode.BadRequest)
             {
-                if (responseObject.Message != null)
+                if (responseObject.Message != null && responseObject.Code == 60008)
                 {
-                    LoginError?.Invoke(new LoginErrorEventArgs(this, responseObject.Message));
+                    LoginMfaErrorEvent?.Invoke(new LoginErrorEventArgs(this, responseObject.Message));
+                }
+                else
+                {
+                    LoginErrorEvent?.Invoke(new LoginErrorEventArgs(this, responseObject.Message));
                     Debug.WriteLine(responseObject.Message);
                 }
-                
             }
             else if (response.IsSuccessStatusCode)
             {
                 if (string.IsNullOrEmpty(responseObject.Token))
                 {
-                    LoginError?.Invoke(new LoginErrorEventArgs(this, "Unknown error"));
+                    LoginErrorEvent?.Invoke(new LoginErrorEventArgs(this, "Unknown error"));
                     Debug.WriteLine("Unknown error");
                 }
                 else
@@ -208,7 +224,7 @@ namespace DiscordRandomStatus
             }
             else
             {
-                LoginError?.Invoke(new LoginErrorEventArgs(this, "Error " + response.StatusCode));
+                LoginErrorEvent?.Invoke(new LoginErrorEventArgs(this, "Error " + response.StatusCode));
                 Debug.WriteLine("Error " + response.StatusCode);
             }
         }

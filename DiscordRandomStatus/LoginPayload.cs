@@ -2,19 +2,25 @@
 
 namespace DiscordRandomStatus
 {
-    class MfaRequest
+    public class MfaRequest
     {
         [JsonProperty("code")]
+        [JsonEmitNullValue]
         public string Code { get; set; }
 
         [JsonProperty("gift_code_sku_id")]
+        [JsonEmitNullValue]
         public string GiftCode { get; set; }
 
         [JsonProperty("login_source")]
+        [JsonEmitNullValue]
         public string LoginSource { get; set; }
 
         [JsonProperty("ticket")]
+        [JsonEmitNullValue]
         public string Ticket { get; set; }
+
+        public MfaRequest() { }
 
         public MfaRequest(string code, string ticket)
         {
@@ -22,7 +28,8 @@ namespace DiscordRandomStatus
             Ticket = ticket;
         }
     }
-    class MfaPayload
+
+    public class MfaPayload
     {
         [JsonProperty("code")]
         public int Code { get; internal set; }
@@ -34,41 +41,65 @@ namespace DiscordRandomStatus
         public string Token { get; internal set; }
     }
 
-    class LoginRequest
+    public class LoginRequest
     {
-        [JsonProperty("captcha_key")]
-        public string CaptchaKey { get; set; }
-
-        [JsonProperty("email")]
-        public string Email { get; set; }
-
-        [JsonProperty("gift_code_sku_id")]
-        public string GiftCode { get; set; }
-
-        [JsonProperty("login_source")]
-        public string LoginSource { get; set; }
+        [JsonProperty("login")]
+        [JsonEmitNullValue]
+        public string Login { get; set; }
 
         [JsonProperty("password")]
+        [JsonEmitNullValue]
         public string Password { get; set; }
 
         [JsonProperty("undelete")]
+        [JsonEmitNullValue]
         public bool Undelete { get; set; }
 
-        public LoginRequest(string email, string password, bool undelete = false)
+        [JsonProperty("captcha_key")]
+        [JsonEmitNullValue]
+        public string CaptchaKey { get; set; }
+
+        [JsonProperty("login_source")]
+        [JsonEmitNullValue]
+        public string LoginSource { get; set; }
+
+        [JsonProperty("gift_code_sku_id")]
+        [JsonEmitNullValue]
+        public string GiftCode { get; set; }
+
+        public LoginRequest() 
         {
-            Email = email;
+            Undelete = false;
+        }
+
+        public LoginRequest(string login, string password) : this(login, password, false) { }
+
+        public LoginRequest(string login, string password, string captchaKey) : this(login, password, false, captchaKey) { }
+
+        public LoginRequest(string login, string password, bool undelete) : this(login, password, undelete, null) { }
+
+        public LoginRequest(string login, string password, bool undelete, string captchaKey)
+        {
+            Login = login;
             Password = password;
             Undelete = undelete;
+            CaptchaKey = captchaKey;
         }
     }
 
-    class LoginPayload
+    public class LoginPayload
     {
         [JsonProperty("captcha_key")]
-        public string[] CaptchaKey { get; internal set; }
+        public string[] CaptchaKey { get; set; }
 
-        [JsonProperty("email")]
-        public string[] Email { get; internal set; }
+        [JsonProperty("captcha_sitekey")]
+        public string CaptchaSiteKey { get; set; }
+
+        [JsonProperty("captcha_service")]
+        public string CaptchaService { get; set; }
+
+        [JsonProperty("login")]
+        public string[] Login { get; internal set; }
 
         [JsonProperty("gift_code_sku_id")]
         public string[] GiftCode { get; internal set; }
@@ -78,6 +109,12 @@ namespace DiscordRandomStatus
 
         [JsonProperty("password")]
         public string[] Password { get; internal set; }
+
+        [JsonProperty("mfa")]
+        public bool MFA { get; internal set; }
+
+        [JsonProperty("sms")]
+        public bool SMS { get; internal set; }
 
         [JsonProperty("token")]
         public string Token { get; internal set; }
